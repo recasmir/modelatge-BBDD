@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-02-2020 a las 10:57:40
+-- Tiempo de generación: 18-02-2020 a las 12:39:35
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.3.14
 
@@ -54,18 +54,6 @@ CREATE TABLE `brands` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `clientrelations`
---
-
-CREATE TABLE `clientrelations` (
-  `client1Id` int(11) NOT NULL,
-  `client2Id` int(11) NOT NULL,
-  `idClientRelations` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `clients`
 --
 
@@ -77,7 +65,7 @@ CREATE TABLE `clients` (
   `emailClient` varchar(100) NOT NULL,
   `registerDate` date NOT NULL,
   `clientRecommended` tinyint(1) NOT NULL,
-  `clientRelationId` int(11) DEFAULT NULL
+  `idClientRelation` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -167,21 +155,13 @@ ALTER TABLE `brands`
   ADD KEY `supplierId` (`supplierId`);
 
 --
--- Indices de la tabla `clientrelations`
---
-ALTER TABLE `clientrelations`
-  ADD PRIMARY KEY (`idClientRelations`),
-  ADD KEY `client1Id` (`client1Id`,`client2Id`),
-  ADD KEY `client2Id` (`client2Id`);
-
---
 -- Indices de la tabla `clients`
 --
 ALTER TABLE `clients`
   ADD PRIMARY KEY (`idClient`),
   ADD KEY `addressId` (`addressId`),
   ADD KEY `idClient` (`idClient`),
-  ADD KEY `clientRelationId` (`clientRelationId`);
+  ADD KEY `idClientRelation` (`idClientRelation`);
 
 --
 -- Indices de la tabla `employees`
@@ -237,12 +217,6 @@ ALTER TABLE `brands`
   MODIFY `idBrand` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `clientrelations`
---
-ALTER TABLE `clientrelations`
-  MODIFY `idClientRelations` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `clients`
 --
 ALTER TABLE `clients`
@@ -277,18 +251,12 @@ ALTER TABLE `suppliers`
 --
 
 --
--- Filtros para la tabla `clientrelations`
---
-ALTER TABLE `clientrelations`
-  ADD CONSTRAINT `clientrelations_ibfk_1` FOREIGN KEY (`client2Id`) REFERENCES `clients` (`idClient`);
-
---
 -- Filtros para la tabla `clients`
 --
 ALTER TABLE `clients`
   ADD CONSTRAINT `clients_ibfk_1` FOREIGN KEY (`addressId`) REFERENCES `addresses` (`idAddress`),
   ADD CONSTRAINT `clients_ibfk_2` FOREIGN KEY (`idClient`) REFERENCES `clients` (`idClient`),
-  ADD CONSTRAINT `clients_ibfk_3` FOREIGN KEY (`clientRelationId`) REFERENCES `clientrelations` (`idClientRelations`);
+  ADD CONSTRAINT `clients_ibfk_3` FOREIGN KEY (`idClientRelation`) REFERENCES `clients` (`idClient`);
 
 --
 -- Filtros para la tabla `glasses`
